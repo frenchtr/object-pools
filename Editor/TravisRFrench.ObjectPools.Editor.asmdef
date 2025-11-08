@@ -1,8 +1,10 @@
 {
-    "name": "TravisRFrench.UnityPackageTemplate.Runtime",
-    "rootNamespace": "TravisRFrench.UnityPackageTemplate.Runtime",
+    "name": "TravisRFrench.ObjectPools.Editor",
+    "rootNamespace": "TravisRFrench.ObjectPools.Editor",
     "references": [],
-    "includePlatforms": [],
+    "includePlatforms": [
+        "Editor"
+    ],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
     "overrideReferences": false,

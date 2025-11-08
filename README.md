@@ -1,2 +1,2 @@
-# Unity Package Template
-A template for creating Unity packages.
+# Object Pools
+A solution for object pooling, designed for use with Unity.
