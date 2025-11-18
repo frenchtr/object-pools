@@ -1,0 +1,16 @@
+{
+    "name": "TravisRFrench.ObjectPools.Samples",
+    "rootNamespace": "TravisRFrench.ObjectPools.Samples",
+    "references": [
+        "GUID:deeb3e9ee41e8d141be222455adf9096"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
