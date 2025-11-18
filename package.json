@@ -1,4 +1,17 @@
 {
     "name": "com.travisrfrench.object-pools",
-    "version": "0.1.1"
+    "displayName": "Dependencies",
+    "version": "0.1.2",
+    "description": "A solution for object pooling, designed for use with Unity.",
+    "author": {
+        "name": "Travis R. French"
+    },
+    "homepage": "https://github.com/frenchtr/object-pools",
+    "keywords": [
+        "Object",
+        "Pool",
+        "Pooling"
+    ],
+    "dependencies": {},
+    "license": "See <LICENSE.md>"
 }
