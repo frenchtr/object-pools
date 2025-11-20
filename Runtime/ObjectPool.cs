@@ -42,12 +42,17 @@ namespace TravisRFrench.ObjectPools.Runtime
 
         public TEntity Retrieve()
         {
+            TEntity entity;
+            
             if (!this.available.Any())
             {
-                return this.RecycleOrThrow();
+                entity = this.RecycleOrThrow();
+            }
+            else
+            {
+                entity = this.available.Pop();
             }
             
-            var entity = this.available.Pop();
             this.active.Add(entity);
             this.Retrieved?.Invoke(entity);
             
