@@ -7,6 +7,7 @@ namespace TravisRFrench.ObjectPools.Runtime
         private readonly Func<TEntity> createMethod;
         private readonly Action<TEntity> destroyMethod;
         private readonly IStorage<TEntity> storage;
+        private bool wasSetupCalled;
         
         public int Count => this.storage.Count;
         public int Capacity { get; }
@@ -31,6 +32,8 @@ namespace TravisRFrench.ObjectPools.Runtime
                 var entity = this.Create();
                 this.storage.Return(entity);
             }
+            
+            this.wasSetupCalled = true;
         }
 
         public void Teardown()
@@ -46,6 +49,8 @@ namespace TravisRFrench.ObjectPools.Runtime
 
         public TEntity Retrieve()
         {
+            this.SetupIfNotAlreadyCalled();
+            
             var entity = this.storage.Retrieve();
             this.Retrieved?.Invoke(entity);
             
@@ -70,6 +75,16 @@ namespace TravisRFrench.ObjectPools.Runtime
         {
             this.destroyMethod(entity);
             this.Destroyed?.Invoke(entity);
+        }
+
+        private void SetupIfNotAlreadyCalled()
+        {
+            if (this.wasSetupCalled)
+            {
+                return;
+            }
+            
+            this.Setup();
         }
     }
 }
