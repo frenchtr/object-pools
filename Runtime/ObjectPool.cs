@@ -4,12 +4,12 @@ namespace TravisRFrench.ObjectPools.Runtime
 {
     public class ObjectPool<TEntity> : IObjectPool<TEntity>
     {
-        private readonly Func<TEntity> createMethod;
-        private readonly Action<TEntity> destroyMethod;
-        private readonly IStorage<TEntity> storage;
-        private bool wasSetupCalled;
+        protected Func<TEntity> CreateMethod { get; }
+        protected Action<TEntity> DestroyMethod { get; }
+        protected IStorage<TEntity> Storage { get; }
+        protected bool WasSetupCalled { get; private set; }
         
-        public int Count => this.storage.Count;
+        public int Count => this.Storage.Count;
         public int Capacity { get; }
 
         public event Action<TEntity> Created;
@@ -19,67 +19,67 @@ namespace TravisRFrench.ObjectPools.Runtime
 
         public ObjectPool(Func<TEntity> createMethod, Action<TEntity> destroyMethod, IStorage<TEntity> storage = null, int capacity = 10)
         {
-            this.createMethod = createMethod;
-            this.destroyMethod = destroyMethod;
-            this.storage = storage ?? new StackBasedStorage<TEntity>(capacity);
+            this.CreateMethod = createMethod;
+            this.DestroyMethod = destroyMethod;
+            this.Storage = storage ?? new StackBasedStorage<TEntity>(capacity);
             this.Capacity = capacity;
         }
         
-        public void Setup()
+        public virtual void Setup()
         {
             for (var i = 0; i < this.Capacity; i++)
             {
                 var entity = this.Create();
-                this.storage.Return(entity);
+                this.Storage.Return(entity);
             }
             
-            this.wasSetupCalled = true;
+            this.WasSetupCalled = true;
         }
 
-        public void Teardown()
+        public virtual void Teardown()
         {
             for (var i = 0; i < this.Capacity; i++)
             {
-                var next = this.storage.Retrieve();
+                var next = this.Storage.Retrieve();
                 this.Destroy(next);
             }
             
-            this.storage.Clear();
+            this.Storage.Clear();
         }
 
-        public TEntity Retrieve()
+        public virtual TEntity Retrieve()
         {
             this.SetupIfNotAlreadyCalled();
             
-            var entity = this.storage.Retrieve();
+            var entity = this.Storage.Retrieve();
             this.Retrieved?.Invoke(entity);
             
             return entity;
         }
 
-        public void Return(TEntity entity)
+        public virtual void Return(TEntity entity)
         {
-            this.storage.Return(entity);
+            this.Storage.Return(entity);
             this.Returned?.Invoke(entity);
         }
 
-        private TEntity Create()
+        protected virtual TEntity Create()
         {
-            var entity = this.createMethod();
+            var entity = this.CreateMethod();
             this.Created?.Invoke(entity);
             
             return entity;
         }
 
-        private void Destroy(TEntity entity)
+        protected virtual void Destroy(TEntity entity)
         {
-            this.destroyMethod(entity);
+            this.DestroyMethod(entity);
             this.Destroyed?.Invoke(entity);
         }
 
         private void SetupIfNotAlreadyCalled()
         {
-            if (this.wasSetupCalled)
+            if (this.WasSetupCalled)
             {
                 return;
             }
