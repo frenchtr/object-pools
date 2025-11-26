@@ -12,7 +12,8 @@ namespace TravisRFrench.ObjectPools.Runtime
         event Action<TEntity> Returned;
         event Action<TEntity> Destroyed;
         
-        void Initialize();
+        void Setup();
+        void Teardown();
         TEntity Retrieve();
         void Return(TEntity entity);
     }

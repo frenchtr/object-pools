@@ -18,7 +18,7 @@ namespace TravisRFrench.ObjectPools.Samples
         private void Awake()
         {
             this.pool = new ObjectPool<GameObject>( () => Instantiate(this.prefab), Destroy);
-            this.pool.Initialize();
+            this.pool.Setup();
         }
 
         private void OnEnable()
