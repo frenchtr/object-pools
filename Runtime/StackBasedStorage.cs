@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 
 namespace TravisRFrench.ObjectPools.Runtime
 {
@@ -15,6 +16,11 @@ namespace TravisRFrench.ObjectPools.Runtime
         
         public TEntity Retrieve()
         {
+            if (!this.stack.Any())
+            {
+                return default;
+            }
+            
             return this.stack.Pop();
         }
 
