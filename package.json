@@ -1,7 +1,7 @@
 {
     "name": "com.travisrfrench.object-pools",
     "displayName": "Object Pools",
-    "version": "0.2.1",
+    "version": "0.3.0",
     "description": "A solution for object pooling, designed for use with Unity.",
     "author": {
         "name": "Travis R. French"
